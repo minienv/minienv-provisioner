@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+!#/bin/bash
 
 # Start Docker
 storage_driver=${MINIENV_STORAGE_DRIVER}
@@ -29,6 +30,11 @@ docker stop $(docker ps -aq)
 docker rm $(docker ps -aq)
 
 # Pull docker images
-# TODO:
+if [[ ! -z ${MINIENV_PROVISION_IMAGES} ]]; then
+    IFS=',' read -ra IMAGE <<< "$MINIENV_PROVISION_IMAGES"
+    for i in "${IMAGE[@]}"; do
+        docker pull ${i}
+    done
+fi
 
 exit 0
