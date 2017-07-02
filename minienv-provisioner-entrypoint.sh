@@ -29,7 +29,18 @@ docker stop $(docker ps -aq)
 # Remove all containers
 docker rm $(docker ps -aq)
 
-# Pull docker images
+# Remove images with no tag
+docker rmi $(docker images | grep "<none>" | awk '{print $3}')
+
+# Pull base minienv images
+docker rmi minienv/minienv-log:latest
+docker rmi minienv/minienv-editor:latest
+docker rmi minienv/minienv-proxy:latest
+docker pull minienv/minienv-log:latest
+docker pull minienv/minienv-editor:latest
+docker pull minienv/minienv-proxy:latest
+
+# Pull configured docker images
 if [[ ! -z ${MINIENV_PROVISION_IMAGES} ]]; then
     IFS=',' read -ra IMAGE <<< "$MINIENV_PROVISION_IMAGES"
     for i in "${IMAGE[@]}"; do
