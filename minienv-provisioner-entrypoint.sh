@@ -33,12 +33,10 @@ docker rm $(docker ps -aq)
 docker rmi $(docker images | grep "<none>" | awk '{print $3}')
 
 # Pull base minienv images
-docker rmi minienv/minienv-log:latest
-docker rmi minienv/minienv-editor:latest
-docker rmi minienv/minienv-proxy:latest
-docker pull minienv/minienv-log:latest
-docker pull minienv/minienv-editor:latest
-docker pull minienv/minienv-proxy:latest
+docker rmi $(docker images | grep "minienv" | awk '{print $3}')
+docker pull minienv/minienv-log:${MINIENV_VERSION}
+docker pull minienv/minienv-editor:${MINIENV_VERSION}
+docker pull minienv/minienv-proxy:${MINIENV_VERSION}
 
 # Pull configured docker images
 if [[ ! -z ${MINIENV_PROVISION_IMAGES} ]]; then
