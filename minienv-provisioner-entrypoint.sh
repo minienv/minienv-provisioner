@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-!#/bin/bash
+#!/bin/bash
 
 # Start Docker
 storage_driver=${MINIENV_STORAGE_DRIVER}
@@ -34,12 +33,6 @@ docker rm $(docker ps -aq)
 
 # Remove images with no tag
 docker rmi $(docker images | grep "<none>" | awk '{print $3}')
-
-# Pull base minienv images
-docker rmi $(docker images | grep "minienv" | awk '{print $3}')
-docker pull minienv/minienv-log:${MINIENV_VERSION}
-docker pull minienv/minienv-editor:${MINIENV_VERSION}
-docker pull minienv/minienv-proxy:${MINIENV_VERSION}
 
 # Pull configured docker images
 if [[ ! -z ${MINIENV_PROVISION_IMAGES} ]]; then
